@@ -6,18 +6,18 @@ import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
-@Table(name="stocks")
+@Table(name = "stocks")
 public class Stock {
-    private Long id;
+    private long id;
     private String symbol;
     private BigDecimal price;
     private String currency;
 
     public Stock(){
-        this.id = (long) 1;
+        this.id = 1;
         this.symbol = "GME";
-        this.price = new BigDecimal(100);
-        this.currency = "CADUSD";
+        this.price = new BigDecimal(168);
+        this.currency = "USD";
     }
 
     public Stock(@JsonProperty("id") long id, @JsonProperty("symbol") String symbol, @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency){
@@ -28,7 +28,7 @@ public class Stock {
     }
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue
     public long getId() {
         return id;
     }

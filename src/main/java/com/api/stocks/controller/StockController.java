@@ -1,5 +1,6 @@
 package com.api.stocks.controller;
 
+import com.api.stocks.entity.FXSpot;
 import com.api.stocks.entity.Stock;
 import com.api.stocks.repository.StockRepository;
 import com.sun.istack.NotNull;
