@@ -2,10 +2,7 @@ package com.api.stocks.entity;
 
 import com.fasterxml.jackson.annotation.JsonProperty;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Table;
+import javax.persistence.*;
 import java.math.BigDecimal;
 
 @Entity
@@ -40,6 +37,7 @@ public class FXSpot {
         this.id = id;
     }
 
+    @Column(name = "fromCurrency", nullable = false)
     public String getFromCurrency(){
         return fromCurrency;
     }
@@ -47,6 +45,7 @@ public class FXSpot {
         this.fromCurrency = currency;
     }
 
+    @Column(name = "toCurrency", nullable = false)
     public String getToCurrency(){
         return toCurrency;
     }
@@ -54,6 +53,7 @@ public class FXSpot {
         this.toCurrency = currency;
     }
 
+    @Column(name = "listOfStocks", nullable = false)
     public BigDecimal getRate(){
         return rate;
     }

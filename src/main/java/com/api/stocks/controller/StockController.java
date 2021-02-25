@@ -1,11 +1,9 @@
 package com.api.stocks.controller;
 
-import com.api.stocks.entity.FXSpot;
 import com.api.stocks.entity.Stock;
-import com.api.stocks.repository.StockRepository;
+import com.api.stocks.service.StockService;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.context.config.ConfigDataResourceNotFoundException;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -16,28 +14,28 @@ import java.util.Optional;
 @RequestMapping("/api/v1")
 public class StockController {
     @Autowired
-    private StockRepository stockRepo;
+    private StockService stockImpl;
 
     @GetMapping("/stocks")
     public List<Stock> getAllStocks(){
-        return stockRepo.findAll();
+        return stockImpl.getAllStocks();
     }
 
-    @GetMapping("/stocks/{id}")
+    @GetMapping("/stock/{id}")
     public Optional<Stock> quoteStock(@PathVariable(value = "id") Long id){
-        Optional<Stock> stock = stockRepo.findById(id);
+        Optional<Stock> stock = stockImpl.getStock(id);
         return stock;
     }
 
-    @PostMapping("/stocks")
-    public int createStock(@Valid @NotNull @RequestBody Stock stock){
-        stockRepo.save(stock);
+    @PostMapping("/stock")
+    public int createStock(@Valid@NotNull@RequestBody Stock stock){
+        stockImpl.createStock(stock);
         return 1;
     }
 
-    @PutMapping("/stocks/{id}")
+    @PutMapping("/stock/{id}")
     public int updateStock(Stock stock){
-        stockRepo.save(stock);
+        stockImpl.updateStock(stock);
         return 1;
     }
 
@@ -57,9 +55,9 @@ public class StockController {
     }
      */
 
-    @DeleteMapping("/stocks/{id}")
+    @DeleteMapping("/stock/{id}")
     public int deleteStock(Stock stock){
-        stockRepo.delete(stock);
+        stockImpl.deleteStock(stock);
         return 1;
     }
 }
