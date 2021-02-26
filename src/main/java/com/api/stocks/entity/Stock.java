@@ -4,17 +4,24 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 
 import javax.persistence.*;
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity
 @Table(name = "stocks")
 public class Stock {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
     private String symbol;
     private BigDecimal price;
     private String currency;
+    @ManyToMany(mappedBy = "haveStocks")
+    private List<Portfolio> inPortfolios = new ArrayList<>();
 
     public Stock(){
-        this.id = 1;
+        //this.id = 1;
         this.symbol = "GME";
         this.price = new BigDecimal(168);
         this.currency = "USD";
@@ -27,8 +34,6 @@ public class Stock {
         this.currency = currency;
     }
 
-    @Id
-    @GeneratedValue
     public long getId() {
         return id;
     }
@@ -36,7 +41,7 @@ public class Stock {
         this.id = id;
     }
 
-    @Column(name = "symbol", nullable = false)
+    //@Column(name = "symbol", nullable = false)
     public String getSymbol() {
         return symbol;
     }
@@ -44,7 +49,7 @@ public class Stock {
         this.symbol = symbol;
     }
 
-    @Column(name = "price", nullable = false)
+    //@Column(name = "price", nullable = false)
     public BigDecimal getPrice() {
         return price;
     }
@@ -52,11 +57,15 @@ public class Stock {
         this.price = price;
     }
 
-    @Column(name = "currency", nullable = false)
+    //@Column(name = "currency", nullable = false)
     public String getCurrency() {
         return currency;
     }
     public void setCurrency(String currency) {
         this.currency = currency;
+    }
+
+    public void addPortfolio(Portfolio portfolio){
+        inPortfolios.add(portfolio);
     }
 }
