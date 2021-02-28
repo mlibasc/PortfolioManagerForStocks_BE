@@ -5,7 +5,9 @@ import com.fasterxml.jackson.annotation.JsonProperty;
 import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity
 @Table(name = "stocks")
@@ -17,7 +19,7 @@ public class Stock {
     private String symbol;
     private BigDecimal price;
     private String currency;
-    @ManyToMany(mappedBy = "haveStocks")
+    @ManyToMany(mappedBy = "stocks")
     private List<Portfolio> inPortfolios = new ArrayList<>();
 
     public Stock(){
@@ -27,7 +29,10 @@ public class Stock {
         this.currency = "USD";
     }
 
-    public Stock(@JsonProperty("id") long id, @JsonProperty("symbol") String symbol, @JsonProperty("price") BigDecimal price, @JsonProperty("currency") String currency){
+    public Stock(@JsonProperty("id") long id,
+                 @JsonProperty("symbol") String symbol,
+                 @JsonProperty("price") BigDecimal price,
+                 @JsonProperty("currency") String currency){
         this.id = id;
         this.symbol = symbol;
         this.price = price;

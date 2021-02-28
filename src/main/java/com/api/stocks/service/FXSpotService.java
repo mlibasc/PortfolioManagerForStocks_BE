@@ -5,6 +5,7 @@ import com.api.stocks.repository.FXSpotRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
 
@@ -22,19 +23,27 @@ public class FXSpotService {
         return fxSpot;
     }
 
-    public int createFXSpot(FXSpot fxSpot){
+    public void createFXSpot(FXSpot fxSpot){
         fxSpotRepo.save(fxSpot);
-        return 1;
     }
 
-    public int updateFXSpot(FXSpot fxSpot){
+    public void updateFXSpot(long id, String fromCurrency, String toCurrency, BigDecimal rate){
+        FXSpot fxSpot = fxSpotRepo.findById(id).get();
+        if(fromCurrency != null){
+            fxSpot.setFromCurrency(fromCurrency);
+        }
+        if(toCurrency != null){
+            fxSpot.setToCurrency(toCurrency);
+        }
+        if(rate != null){
+            fxSpot.setRate(rate);
+        }
         fxSpotRepo.save(fxSpot);
-        return 1;
     }
 
-    public int deleteFXSpot(FXSpot fxSpot){
+    public void deleteFXSpot(long id){
+        FXSpot fxSpot = fxSpotRepo.findById(id).get();
         fxSpotRepo.delete(fxSpot);
-        return 1;
     }
 
 }

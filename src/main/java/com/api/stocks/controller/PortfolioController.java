@@ -1,7 +1,9 @@
 package com.api.stocks.controller;
 
 import com.api.stocks.entity.Portfolio;
+import com.api.stocks.entity.Stock;
 import com.api.stocks.service.PortfolioService;
+import com.api.stocks.service.StockService;
 import com.sun.istack.NotNull;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -16,30 +18,40 @@ public class PortfolioController {
     @Autowired
     private PortfolioService portfolioImpl;
 
+    @Autowired
+    private StockService stockImpl;
+
     @GetMapping("/portfolios")
     public List<Portfolio> getAllStocks(){return portfolioImpl.getAllPortfolios();}
 
     @GetMapping("/portfolio/{id}")
-    public Optional<Portfolio> getPortfolio(@PathVariable(value = "id") Long id){
+    public Optional<Portfolio> getPortfolio(@PathVariable(value = "id") long id){
         Optional<Portfolio> portfolio = portfolioImpl.getPortfolio(id);
         return portfolio;
     }
 
     @PostMapping("/portfolio")
-    public int createPortfolio(@Valid@NotNull@RequestBody Portfolio portfolio){
+    public void createPortfolio(@Valid@NotNull@RequestBody Portfolio portfolio){
         portfolioImpl.createPortfolio(portfolio);
-        return 1;
     }
 
     @PutMapping("/portfolio/{id}")
-    public int updatePortfolio(@PathVariable("id") long id, @Valid@NotNull@RequestBody Portfolio portfolio){
-        portfolioImpl.updatePortfolio(portfolio);
-        return 1;
+    public void updatePortfolio(@PathVariable("id") long id, @Valid@NotNull@RequestBody Portfolio portfolio){
+        portfolioImpl.updatePortfolio(id, portfolio.getClientName(), portfolio.getPortfolioName());
     }
 
     @DeleteMapping("/portfolio/{id}")
-    public int deletePortfolio(@PathVariable(value = "id") long id, @Valid@NotNull@RequestBody Portfolio portfolio){
-        portfolioImpl.deletePortfolio(portfolio);
-        return 1;
+    public void deletePortfolio(@PathVariable("id") long id){
+        portfolioImpl.deletePortfolio(id);
+    }
+
+    @PutMapping("/portfolio/{portfolioId}/stock/{stockId}")
+    public void addStockToPortfolio(@PathVariable(value = "portfolioId") long portfolioId,
+                                   @PathVariable(value = "stockId") long stockId){
+        Portfolio portfolioToUpdate = portfolioImpl.getPortfolio(portfolioId).get();
+        Stock stockToAdd = stockImpl.getStock(stockId).get();
+
+        portfolioToUpdate.addStockToPortfolio(stockToAdd);
+        portfolioImpl.updatePortfolio(portfolioId, null, null);
     }
 }

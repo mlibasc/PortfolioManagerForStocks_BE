@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 public class FXSpotController {
     @Autowired
     private FXSpotService fxSpotImpl;
@@ -22,26 +22,23 @@ public class FXSpotController {
     }
 
     @GetMapping("/fxspot/{id}")
-    public Optional<FXSpot> quoteFXSpot(@PathVariable(value = "id") Long id){
+    public Optional<FXSpot> quoteFXSpot(@PathVariable(value = "id") long id){
         Optional<FXSpot> fxSpot = fxSpotImpl.getFXSpot(id);
         return fxSpot;
     }
 
     @PostMapping("/fxspot")
-    public int createFXSpot(@Valid@NotNull@RequestBody FXSpot fxSpot){
+    public void createFXSpot(@Valid@NotNull@RequestBody FXSpot fxSpot){
         fxSpotImpl.createFXSpot(fxSpot);
-        return 1;
     }
 
     @PutMapping("/fxspot/{id}")
-    public int updateFXSpot(@PathVariable("id")long id, @Valid@NotNull@RequestBody FXSpot fxSpot){
-        fxSpotImpl.updateFXSpot(fxSpot);
-        return 1;
+    public void updateFXSpot(@PathVariable("id") long id, @Valid@NotNull@RequestBody FXSpot fxSpot){
+        fxSpotImpl.updateFXSpot(id, fxSpot.getFromCurrency(), fxSpot.getToCurrency(), fxSpot.getRate());
     }
 
     @DeleteMapping("/fxspot/{id}")
-    public int deleteFXSpot(@PathVariable(value = "id") long id, @Valid@NotNull@RequestBody FXSpot fxSpot){
-        fxSpotImpl.deleteFXSpot(fxSpot);
-        return 1;
+    public void deleteFXSpot(@PathVariable("id") long id){
+        fxSpotImpl.deleteFXSpot(id);
     }
 }

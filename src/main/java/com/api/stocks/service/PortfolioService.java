@@ -1,7 +1,9 @@
 package com.api.stocks.service;
 
 import com.api.stocks.entity.Portfolio;
+import com.api.stocks.entity.Stock;
 import com.api.stocks.repository.PortfolioRepository;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,18 +22,23 @@ public class PortfolioService {
         return portfolio;
     }
 
-    public int createPortfolio(Portfolio portfolio){
+    public void createPortfolio(Portfolio portfolio){
         portfolioRepo.save(portfolio);
-        return 1;
     }
 
-    public int updatePortfolio(Portfolio portfolio){
+    public void updatePortfolio(long id, String clientName, String portfolioName){
+        Portfolio portfolio = portfolioRepo.findById(id).get();
+        if(clientName != null){
+            portfolio.setClientName(clientName);
+        }
+        if(portfolioName != null){
+            portfolio.setPortfolioName(portfolioName);
+        }
         portfolioRepo.save(portfolio);
-        return 1;
     }
 
-    public int deletePortfolio(Portfolio portfolio){
+    public void deletePortfolio(long id){
+        Portfolio portfolio = portfolioRepo.findById(id).get();
         portfolioRepo.delete(portfolio);
-        return 1;
     }
 }

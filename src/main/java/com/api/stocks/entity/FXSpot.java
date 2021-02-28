@@ -8,19 +8,26 @@ import java.math.BigDecimal;
 @Entity
 @Table(name = "FXSpots")
 public class FXSpot {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private long id;
+    @Column(name = "fromCurrency")
     private String fromCurrency;
+    @Column(name = "toCurrency")
     private String toCurrency;
+    @Column(name = "rate")
     private BigDecimal rate;
 
     public FXSpot(){
-        this.id = 1;
+        //this.id = 1;
         this.fromCurrency = "CAD";
         this.toCurrency = "USD";
         this.rate = new BigDecimal(1.355);
     }
 
-    public FXSpot(@JsonProperty("id") long id, @JsonProperty("fromCurrency") String fromCurrency, @JsonProperty("toCurrency") String toCurrency,
+    public FXSpot(@JsonProperty("id") long id,
+                  @JsonProperty("fromCurrency") String fromCurrency,
+                  @JsonProperty("toCurrency") String toCurrency,
                   @JsonProperty("rate") BigDecimal rate){
         this.id = id;
         this.fromCurrency = fromCurrency;
@@ -28,8 +35,6 @@ public class FXSpot {
         this.rate = rate;
     }
 
-    @Id
-    @GeneratedValue
     public long getId(){
         return id;
     }
@@ -37,7 +42,7 @@ public class FXSpot {
         this.id = id;
     }
 
-    @Column(name = "fromCurrency", nullable = false)
+    //@Column(name = "fromCurrency", nullable = false)
     public String getFromCurrency(){
         return fromCurrency;
     }
@@ -45,7 +50,7 @@ public class FXSpot {
         this.fromCurrency = currency;
     }
 
-    @Column(name = "toCurrency", nullable = false)
+    //@Column(name = "toCurrency", nullable = false)
     public String getToCurrency(){
         return toCurrency;
     }
@@ -53,7 +58,7 @@ public class FXSpot {
         this.toCurrency = currency;
     }
 
-    @Column(name = "listOfStocks", nullable = false)
+    //@Column(name = "rate", nullable = false)
     public BigDecimal getRate(){
         return rate;
     }

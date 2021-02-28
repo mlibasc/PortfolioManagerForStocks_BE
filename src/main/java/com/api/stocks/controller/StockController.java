@@ -11,7 +11,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/v1")
+@RequestMapping("/api/v1/")
 public class StockController {
     @Autowired
     private StockService stockImpl;
@@ -28,15 +28,18 @@ public class StockController {
     }
 
     @PostMapping("/stock")
-    public int createStock(@Valid@NotNull@RequestBody Stock stock){
+    public void createStock(@Valid@NotNull@RequestBody Stock stock){
         stockImpl.createStock(stock);
-        return 1;
     }
 
     @PutMapping("/stock/{id}")
-    public int updateStock(Stock stock){
-        stockImpl.updateStock(stock);
-        return 1;
+    public void updateStock(@PathVariable("id") long id, @Valid@NotNull@RequestBody Stock stock){
+        stockImpl.updateStock(id, stock.getSymbol(), stock.getPrice(), stock.getCurrency());
+    }
+
+    @DeleteMapping("/stock/{id}")
+    public void deleteStock(@PathVariable("id") long id){
+        stockImpl.deleteStock(id);
     }
 
     /*
@@ -54,10 +57,4 @@ public class StockController {
         }
     }
      */
-
-    @DeleteMapping("/stock/{id}")
-    public int deleteStock(Stock stock){
-        stockImpl.deleteStock(stock);
-        return 1;
-    }
 }
