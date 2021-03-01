@@ -22,8 +22,8 @@ public class StockController {
     }
 
     @GetMapping("/stock/{id}")
-    public Optional<Stock> quoteStock(@PathVariable(value = "id") Long id){
-        Optional<Stock> stock = stockImpl.getStock(id);
+    public Stock quoteStock(@PathVariable(value = "id") Long id){
+        Stock stock = stockImpl.getStock(id);
         return stock;
     }
 

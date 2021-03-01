@@ -65,4 +65,5 @@ public class FXSpot {
     public void setRate(BigDecimal rate){
         this.rate = rate;
     }
+
 }

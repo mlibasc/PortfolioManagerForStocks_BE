@@ -18,9 +18,21 @@ public class FXSpotService {
         return fxSpotRepo.findAll();
     }
 
-    public Optional<FXSpot> getFXSpot(Long id){
-        Optional<FXSpot> fxSpot = fxSpotRepo.findById(id);
+    public FXSpot getFXSpot(Long id){
+        FXSpot fxSpot = fxSpotRepo.findById(id).get();
         return fxSpot;
+    }
+
+    public FXSpot getFXSpotByCurrency(String fromCurrency, String toCurrency){
+        List<FXSpot> fxSpots = fxSpotRepo.findAll();
+
+        for(int i = 0; i < fxSpots.size(); i++){
+            if(fxSpots.get(i).getFromCurrency().equalsIgnoreCase(fromCurrency)
+                    && fxSpots.get(i).getToCurrency().equalsIgnoreCase(toCurrency)){
+                return fxSpots.get(i);
+            }
+        }
+        return null;
     }
 
     public void createFXSpot(FXSpot fxSpot){

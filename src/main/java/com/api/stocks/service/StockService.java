@@ -17,8 +17,8 @@ public class StockService {
 
     public List<Stock> getAllStocks(){return stockRepo.findAll();}
 
-    public Optional<Stock> getStock(Long id){
-        Optional<Stock> stock = stockRepo.findById(id);
+    public Stock getStock(Long id){
+        Stock stock = stockRepo.findById(id).get();
         return stock;
     }
 

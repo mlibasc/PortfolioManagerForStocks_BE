@@ -22,8 +22,8 @@ public class FXSpotController {
     }
 
     @GetMapping("/fxspot/{id}")
-    public Optional<FXSpot> quoteFXSpot(@PathVariable(value = "id") long id){
-        Optional<FXSpot> fxSpot = fxSpotImpl.getFXSpot(id);
+    public FXSpot quoteFXSpot(@PathVariable(value = "id") long id){
+        FXSpot fxSpot = fxSpotImpl.getFXSpot(id);
         return fxSpot;
     }
 
