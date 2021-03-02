@@ -80,6 +80,10 @@ public class StocksApplication {
 		manfredPortfolio.addStockToPortfolio(stockAAPL, new BigDecimal(1));
 		malfredPortfolio.addStockToPortfolio(stockGME, new BigDecimal(1));
 
+		alfredPortfolio.setTotalValueOfPortfolio(new BigDecimal(100));
+		manfredPortfolio.setTotalValueOfPortfolio(new BigDecimal(100));
+		malfredPortfolio.setTotalValueOfPortfolio(new BigDecimal(100));
+
 		portfolioRepo.saveAll(portfolios);
 	}
 }

@@ -19,7 +19,7 @@ public class Stock {
     private String symbol;
     private BigDecimal price;
     private String currency;
-    @ManyToMany(mappedBy = "stocks")
+    @ManyToMany(mappedBy = "listOfStocks")
     private List<Portfolio> inPortfolios = new ArrayList<>();
 
     public Stock(){

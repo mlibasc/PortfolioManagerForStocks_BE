@@ -20,6 +20,7 @@ public class Portfolio {
     @Column(name = "portfolioName")
     private String portfolioName;
     private String portfolioCurrency;
+    private BigDecimal totalValueOfPortfolio;
     @Column(name = "unitOfStocks")
     @ElementCollection
     private List<BigDecimal> unitOfStocks = new ArrayList<>();
@@ -29,8 +30,8 @@ public class Portfolio {
             joinColumns = @JoinColumn(name = "portfolio_id"),
             inverseJoinColumns = @JoinColumn(name = "stock_id")
     )
-    @Column(name = "stocks_id")
-    private List<Stock> stocks = new ArrayList<>();
+    @Column(name = "listOfStocks")
+    private List<Stock> listOfStocks = new ArrayList<>();
 
 
 
@@ -39,6 +40,7 @@ public class Portfolio {
         this.clientName = "Alfred";
         this.portfolioName = "investments";
         this.portfolioCurrency = "CAD";
+        this.totalValueOfPortfolio = new BigDecimal(0);
 
         //this.stocks.add(stock);
 
@@ -51,14 +53,16 @@ public class Portfolio {
                      @JsonProperty("clientName") String clientName,
                      @JsonProperty("portfolioName") String portfolioName,
                      @JsonProperty("portfolioCurrency") String portfolioCurrency,
+                     @JsonProperty("totalValueOfPortfolio") BigDecimal totalValueOfPortfolio,
                      @JsonProperty("unitOfStocks") List<BigDecimal> unitOfStocks,
                      @JsonProperty("listOfStocks") List<Stock> stocks){
         this.id = id;
         this.clientName = clientName;
         this.portfolioName = portfolioName;
         this.portfolioCurrency = portfolioCurrency;
+        this.totalValueOfPortfolio = totalValueOfPortfolio;
         this.unitOfStocks = unitOfStocks;
-        this.stocks = stocks;
+        this.listOfStocks = stocks;
     }
 
     public long getId(){return id;}
@@ -75,18 +79,21 @@ public class Portfolio {
     public String getCurrency(){return portfolioCurrency;}
     public void setPortfolioCurrency(String portfolioCurrency){this.portfolioCurrency = portfolioCurrency;}
 
-    public List<Stock> getStocks(){return stocks;}
-    public void setStocks(List<Stock> stocks){this.stocks = stocks;}
+    public BigDecimal getTotalValueOfPortfolio(){return totalValueOfPortfolio;}
+    public void setTotalValueOfPortfolio(BigDecimal totalValueOfPortfolio){this.totalValueOfPortfolio = totalValueOfPortfolio;}
+
+    public List<Stock> getStocks(){return listOfStocks;}
+    public void setStocks(List<Stock> stocks){this.listOfStocks = stocks;}
 
     public List<BigDecimal> getUnitOfStocks(){return unitOfStocks;}
     public void setUnitOfStocks(List<BigDecimal> unitOfStocks){this.unitOfStocks = unitOfStocks;}
 
     public void addStockToPortfolio(Stock stock, BigDecimal unit){
-        this.stocks.add(stock);
+        this.listOfStocks.add(stock);
         this.unitOfStocks.add(unit);
     }
     public void deleteStockFromPortfolio(Stock stock){
-        this.unitOfStocks.remove(stocks.indexOf(stock));
-        this.stocks.remove(stock);
+        this.unitOfStocks.remove(listOfStocks.indexOf(stock));
+        this.listOfStocks.remove(stock);
     }
 }

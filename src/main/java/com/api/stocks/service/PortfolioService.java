@@ -33,7 +33,7 @@ public class PortfolioService {
         portfolioRepo.save(portfolio);
     }
 
-    public void updatePortfolio(long id, String clientName, String portfolioName){
+    public void updatePortfolio(long id, String clientName, String portfolioName, String portfoliocurrency){
         Portfolio portfolio = portfolioRepo.findById(id).get();
         if(clientName != null){
             portfolio.setClientName(clientName);
@@ -41,6 +41,11 @@ public class PortfolioService {
         if(portfolioName != null){
             portfolio.setPortfolioName(portfolioName);
         }
+        if(portfoliocurrency != null){
+            portfolio.setPortfolioCurrency(portfoliocurrency);
+        }
+        BigDecimal totalValue = getTotalValue(portfolio.getId()).setScale(2, RoundingMode.FLOOR);;
+        portfolio.setTotalValueOfPortfolio(totalValue);
         portfolioRepo.save(portfolio);
     }
 
@@ -55,7 +60,7 @@ public class PortfolioService {
         }
         try{
             FXSpot fxSpot = fxSpotImpl.getFXSpotByCurrency(stockCurrency, portfolioCurrency);
-            return priceOfStock.multiply(fxSpot.getRate()).setScale(2);
+            return priceOfStock.multiply(fxSpot.getRate()).setScale(2, RoundingMode.FLOOR);
         }catch(NullPointerException e){
             System.out.print("No FXSpot available to make conversion");
         }

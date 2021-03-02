@@ -25,7 +25,7 @@ public class PortfolioController {
     public List<Portfolio> getAllStocks(){return portfolioImpl.getAllPortfolios();}
 
     @GetMapping("/portfolio/{id}")
-    public Portfolio getPortfolio(@PathVariable(value = "id") long id){
+    public Portfolio getPortfolio(@PathVariable("id") long id){
         Portfolio portfolio = portfolioImpl.getPortfolio(id);
         return portfolio;
     }
@@ -37,7 +37,7 @@ public class PortfolioController {
 
     @PutMapping("/portfolio/{id}")
     public void updatePortfolio(@PathVariable("id") long id, @Valid@NotNull@RequestBody Portfolio portfolio){
-        portfolioImpl.updatePortfolio(id, portfolio.getClientName(), portfolio.getPortfolioName());
+        portfolioImpl.updatePortfolio(id, portfolio.getClientName(), portfolio.getPortfolioName(), portfolio.getCurrency());
     }
 
     @DeleteMapping("/portfolio/{id}")
@@ -51,9 +51,8 @@ public class PortfolioController {
                                     @PathVariable("units") BigDecimal unit){
         Portfolio portfolioToUpdate = portfolioImpl.getPortfolio(portfolioId);
         Stock stockToAdd = stockImpl.getStock(stockId);
-
         portfolioToUpdate.addStockToPortfolio(stockToAdd, unit);
-        portfolioImpl.updatePortfolio(portfolioId, null, null);
+        portfolioImpl.updatePortfolio(portfolioId, null, null, null);
     }
 
     @PutMapping("/portfolio/{portfolioId}/deletestock/{stockId}")
@@ -63,10 +62,10 @@ public class PortfolioController {
         Stock stockToDelete = stockImpl.getStock(stockId);
 
         portfolioToUpdate.deleteStockFromPortfolio(stockToDelete);
-        portfolioImpl.updatePortfolio(portfolioId, null, null);
+        portfolioImpl.updatePortfolio(portfolioId, null, null, null);
     }
 
-    @GetMapping("stocksinportfolio/{portfolioId}")
+    @GetMapping("stocksInPortfolio/{portfolioId}")
     public List<Stock> showStocksInPortfolio(@PathVariable("portfolioId") long portfolioId){
         Portfolio portfolio = portfolioImpl.getPortfolio(portfolioId);
         return portfolio.getStocks();
